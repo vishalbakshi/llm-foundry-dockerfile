@@ -10,13 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      # Add cleanup step
+      # Enhanced cleanup step
       - name: Free disk space
         run: |
+          echo "Disk space before cleanup:"
           df -h
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo apt-get clean
+          docker system prune -af
+          echo "Disk space after cleanup:"
           df -h
 
       - name: Login to Docker Hub
@@ -39,3 +45,4 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/llm-foundry-jupyter:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # Add build-args if needed for your Dockerfile
