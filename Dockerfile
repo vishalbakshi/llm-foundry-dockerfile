@@ -23,6 +23,14 @@ ENV CONDA_PREFIX=/opt/conda/envs/llm-foundry
 ENV PATH=/opt/conda/envs/llm-foundry/bin:$PATH
 ENV UV_PROJECT_ENVIRONMENT=$CONDA_PREFIX
 
+ENV LANG C.UTF-8
+ENV SHELL=/bin/bash
+ENV DEBIAN_FRONTEND=noninteractive
+
+ENV APT_INSTALL="apt-get install -y --no-install-recommends"
+ENV PIP_INSTALL="python3 -m pip --no-cache-dir install --upgrade"
+ENV GIT_CLONE="git clone --depth 10"
+
 # Clone repository and install dependencies
 WORKDIR /app
 RUN git clone https://github.com/LocalResearchGroup/llm-foundry.git && \
